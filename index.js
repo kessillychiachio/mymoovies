@@ -1,11 +1,10 @@
 const express = require("express");
 const bodyParser = require("body-parser");
-const categoryRoutes = require("./src/routes/category");
 const mooviesRoutes = require("./src/routes/moovies");
+const categoryRoutes = require("./src/routes/category");
 
 const app = express();
 const PORT = process.env.PORT||3000;
-
 app.use(bodyParser.json());
 
 app.use("/moovies", mooviesRoutes);
