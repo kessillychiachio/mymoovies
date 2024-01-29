@@ -1,28 +1,19 @@
-const CategoryController = {
-  findAll(req, res) {
-     /**
-      * Aqui entraria a regra de persistencia do banco de dados
-      */
-    res.json([
-      {
-      id: 1, 
-      name: "Filmes A", 
-      description: "Essa categoria traz filmes com a letra A",
-    },
-    {
-    id: 2, 
-    name: "Filmes B", 
-    description: "Essa categoria traz filmes com a letra B",
-  },
-]);
+const db = require("../db");
 
-  },
+const CategoryController = {
+   async findAll(req, res) {
+     try {
+       const category = await db.query("SELECT  * FROM category");
+       res.json(category.rows);
+     } catch (error) {
+      res.status(500).json({error: error.message });
+
+
+     }
+    },
+
   find(req, res) {
     const {id}=req.params;
-
-     /**
-      * Aqui entraria a regra de persistencia do banco de dados
-      */
 
     res.json({
       id: id, 
