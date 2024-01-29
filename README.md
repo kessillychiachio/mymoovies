@@ -2,7 +2,7 @@
  '''
  - src
     - controllers
-       - MoovieController.js
+       - MooviesController.js
        - CategoryController.js
   
     - routes
