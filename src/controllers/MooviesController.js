@@ -46,15 +46,21 @@ const MooviesController = {
   },
 
   async create(req, res) {
-    const { title, description, category_id, realease_date } = req.body;
+    const { title, description, category_id, release_date } = req.body;
 
-    // É necessário realizar uma validação pelo id de categoria
-
+    const CategoryExists = await db.query (
+      `SELECT * FROM category WHERE id = $1`, 
+      [category_id]
+    );
+    if (CategoryExists.rows.length === 0) {
+      return res.status(400).json({error:"Categoria nao encontrada"});
+    }
+    
     try {
       const newMoovie = await db.query(
-        `INSERT INTO moovie (title, description, category_id, realease_date)
+        `INSERT INTO moovie (title, description, category_id, release_date)
          VALUES ($1, $2, $3, $4) RETURNING *`,
-        [title, description, category_id, realease_date]
+        [title, description, category_id, release_date]
       );
 
       res.status(201).json(newMoovie.rows[0]);
