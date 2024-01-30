@@ -45,6 +45,24 @@ const CategoryController = {
     }
   },
 
+  async update(req, res) {
+    const {id} = req.params;
+    const {name, description} = req.body;
+    try {
+      const updatedCategory = await db.query(
+        "UPDATE category SET name = $1, description = $2 WHERE id = $3 RETURNING *",
+        [name, description, id]
+      );
+      if (updatedCategory.rows.length > 0) {
+        res.json(updatedCategory.rows[0]);
+      } else {
+        res.status(404).json ({error:"Categoria nao encontrada."});
+      }
+    } catch (error) {
+      res.status(500).json({error: error.message});
+    }
+  },
+
   async delete(req, res) {
     const {id}=req.params;
 
